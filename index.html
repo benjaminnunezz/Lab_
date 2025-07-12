@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LABMAT - UC</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --uc-blue: #0039a6;
+      --uc-light-blue: #0072ce;
+      --uc-dark-gray: #333333;
+      --uc-light-gray: #f8f9fa;
+      --uc-green: #28a745;
+    }
+    
+    body {
+      font-family: Arial, sans-serif;
+    }
+    
+    .navbar-brand {
+      font-weight: bold;
+      color: white;
+    }
+    .navbar {
+      background-color: var(--uc-blue) !important;
+    }
+    .uc-logo-text {
+      font-family: 'Times New Roman', serif;
+      font-weight: bold;
+      text-align: center;
+      margin: 15px 0;
+    }
+    .uc-logo-text.uc-main {
+      font-size: 1.5rem;
+      color: var(--uc-dark-gray);
+    }
+    .uc-logo-text.faculty {
+      font-size: 1.2rem;
+      color: var(--uc-dark-gray);
+    }
+    .header-container {
+      background-color: var(--uc-light-gray);
+      padding: 15px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border-bottom: 1px solid #dee2e6;
+    }
+    .title-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .course-section {
+      display: none;
+    }
+    .card-header {
+      background-color: var(--uc-blue);
+      color: white;
+      font-weight: bold;
+    }
+    .news-header {
+      background-color: var(--uc-light-blue);
+      color: white;
+      font-weight: bold;
+    }
+    .course-nav {
+      background-color: var(--uc-light-gray);
+      border-bottom: 1px solid #dee2e6;
+      padding: 10px 0;
+      display: flex;
+      overflow-x: auto;
+    }
+    .course-nav a {
+      color: var(--uc-dark-gray);
+      font-weight: 500;
+      padding: 8px 15px;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .course-nav a:hover, .course-nav a.active {
+      color: var(--uc-blue);
+      border-bottom: 2px solid var(--uc-blue);
+    }
+    .news-item {
+      margin-bottom: 15px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #eee;
+    }
+    .news-item:last-child {
+      border-bottom: none;
+    }
+    .month-section {
+      margin-bottom: 20px;
+    }
+    .month-title {
+      font-weight: bold;
+      color: var(--uc-dark-gray);
+      margin-bottom: 10px;
+    }
+    .video-card {
+      margin-bottom: 20px;
+    }
+    .video-card iframe {
+      border-radius: 5px;
+      border: 1px solid #ddd;
+    }
+    .video-title {
+      margin-top: 8px;
+      font-size: 0.9rem;
+      color: var(--uc-dark-gray);
+    }
+    .badge-check {
+      background-color: var(--uc-green);
+    }
+    .course-footer {
+      font-size: 0.9rem;
+      color: #6c757d;
+      margin-top: 20px;
+      text-align: center;
+    }
+    .breadcrumb {
+      background-color: transparent;
+      padding: 0;
+      font-size: 0.9rem;
+    }
+    .breadcrumb-item.active {
+      color: var(--uc-dark-gray);
+      font-weight: bold;
+    }
+    .month-tabs {
+      display: flex;
+      border-bottom: 1px solid #dee2e6;
+      margin-bottom: 15px;
+    }
+    .month-tab {
+      padding: 8px 15px;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+    }
+    .month-tab.active {
+      border-bottom: 2px solid var(--uc-blue);
+      font-weight: bold;
+    }
+    .news-content {
+      padding: 15px;
+      background-color: white;
+      border-radius: 5px;
+      border: 1px solid #dee2e6;
+    }
+    .news-time {
+      font-weight: bold;
+      color: var(--uc-dark-gray);
+      margin-bottom: 10px;
+    }
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .table th, .table td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #dee2e6;
+    }
+    .table th {
+      background-color: #f8f9fa;
+      font-weight: 600;
+    }
+    .nota-pendiente {
+      color: #6c757d;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">LABMAT</a>
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item"><a class="nav-link" href="#" onclick="showHome()">Inicio</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Cursos</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Laboratorios</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Header con logo de texto -->
+  <div class="container-fluid header-container">
+    <div class="title-container">
+      <div class="uc-logo-text uc-main">PONTIFICIA UNIVERSIDAD CATÓLICA DE CHILE</div>
+      <div class="uc-logo-text faculty">FACULTAD DE MATEMÁTICAS</div>
+    </div>
+  </div>
+
+  <!-- Página Principal -->
+  <div class="container my-4" id="home">
+    <div class="row">
+      <!-- Columna izquierda - Mis Cursos -->
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-header">Mis Cursos</div>
+          <div class="card-body">
+            <h5><strong>Mis Cursos 1° - 2025</strong></h5>
+            <ul class="list-unstyled">
+              <li class="mb-2"><a href="#" onclick="showCurso('mat1610')">MAT1610 - Cálculo I</a></li>
+              <li class="mb-2"><a href="#" onclick="showCurso('mat1204')">MAT1203 - Álgebra Lineal</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Columna derecha - Noticias -->
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header news-header">Noticias de la Facultad</div>
+          <div class="card-body">
+            <div class="news-item">
+              <a href="#">Estudiantes de Magíster de Chile y Latinoamérica ya pueden postular a la Escuela Predoctoral en Matemática y Estadística 2025</a>
+              <span class="badge bg-success ms-2">✓</span>
+            </div>
+            <div class="news-item">
+              <a href="#">Profesores de la Facultad de Matemáticas UC, Mario Ponce y Roberto Cominetti, obtienen la titularidad</a>
+              <span class="badge bg-success ms-2">✓</span>
+            </div>
+            <div class="news-item">
+              <a href="#">Gunther Uhlmann se incorpora a la Facultad de Matemáticas UC como profesor visitante</a>
+              <span class="badge bg-success ms-2">✓</span>
+            </div>
+            <div class="news-item">
+              <a href="#">Día de los Patrimonios 2025: Niños, jóvenes y adultos vibraban con la arquitectura, cultura e historia de la Facultad de Matemáticas UC</a>
+              <span class="badge bg-success ms-2">✓</span>
+            </div>
+            <div class="news-item">
+              <a href="#">Estudiantes y profesores de Enseñanza Media podrán visitar Facultad de Matemáticas UC en una nueva jornada de puertas abiertas</a>
+              <span class="badge bg-success ms-2">✓</span>
+            </div>
+            <div class="news-item">
+              <a href="#">Facultad de Matemáticas UC celebró el Día de los Patrimonios 2025 con actividades para toda la familia</a>
+              <span class="badge bg-success ms-2">✓</span>
+            </div>
+            <button class="btn btn-outline-primary btn-sm mt-2">Más Noticias</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sección de Videos -->
+    <h2 class="mt-5 mb-3">Videos</h2>
+    <div class="row">
+      <div class="col-md-3 video-card">
+        <iframe class="w-100" height="150" src="https://www.youtube.com/embed/jN2MzdONDP0" allowfullscreen></iframe>
+        <div class="video-title">Simetrías de Ángulos de Referencia</div>
+      </div>
+      <div class="col-md-3 video-card">
+        <iframe class="w-100" height="150" src="https://www.youtube.com/embed/6iHh5OLt7ys" allowfullscreen></iframe>
+        <div class="video-title">Funciones Trigonométricas en Números Reales</div>
+      </div>
+      <div class="col-md-3 video-card">
+        <iframe class="w-100" height="150" src="https://www.youtube.com/embed/CXGxS3vFv7Y" allowfullscreen></iframe>
+        <div class="video-title">Sumatorias 2</div>
+      </div>
+      <div class="col-md-3 video-card">
+        <iframe class="w-100" height="150" src="https://www.youtube.com/embed/b5ZT-jEoJzM" allowfullscreen></iframe>
+        <div class="video-title">Combinación de Funciones: Composición 1</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sección de Curso: MAT1610 - Cálculo I -->
+  <div id="mat1610" class="container my-4 course-section">
+    <button class="btn btn-sm btn-secondary mb-3" onclick="showHome()">&larr; Volver al Inicio</button>
+    
+    <!-- Encabezado del curso -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div>
+        <h2>MAT1610 - Cálculo I</h2>
+        <div class="text-muted">LABMAT 2.1 © 2025 / Dirección de Gestión Docente<br>Facultad de Matemáticas, UC</div>
+      </div>
+      <div class="text-end">
+        <div class="fw-bold">Sabado, Junio</div>
+      </div>
+    </div>
+    
+    <!-- Navegación del curso -->
+    <div class="course-nav mb-4">
+      <a href="#">Noticias</a>
+      <a href="#">Información General</a>
+      <a href="#">Material Docente</a>
+      <a href="#">Tareas</a>
+      <a href="#">Ayudantías</a>
+      <a href="#" class="active">Notas</a>
+      <a href="#">Coordinador</a>
+      <a href="#">Académico</a>
+      <a href="#">Ayudante</a>
+    </div>
+    
+    <!-- Contenido del curso - Notas -->
+    <div class="row">
+      <div class="col-md-12">
+        <h4>Notas</h4>
+        <div class="card mt-3">
+          <div class="card-body">
+            <div class="d-flex mb-3">
+              <a href="#" class="me-3 fw-bold">Mis Notas</a>
+              <a href="#" class="me-3">Mis Pruebas</a>
+              <a href="#">Mis justificaciones</a>
+            </div>
+            
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Descripción</th>
+                  <th>Nota</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>I1</td>
+                  <td class="nota-pendiente">6.1
+                  </td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>I2</td>
+                  <td class="nota-pendiente">5.2</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>T1</td>
+                  <td class="nota-pendiente">4.5</td>
+                  <td></td>
+                  <tr>
+                    <td>EX</td>
+                    <td class="nota-pendiente">Pendiente</td>
+                    <td></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sección de Curso: MAT1204 - Álgebra Lineal -->
+  <div id="mat1204" class="container my-4 course-section">
+    <button class="btn btn-sm btn-secondary mb-3" onclick="showHome()">&larr; Volver al Inicio</button>
+    
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Portada</a></li>
+        <li class="breadcrumb-item"><a href="#">Cursos</a></li>
+        <li class="breadcrumb-item"><a href="#">Escuela de Ingeniería</a></li>
+        <li class="breadcrumb-item active">2025</li>
+        <li class="breadcrumb-item active">MAT1203 Álgebra Lineal</li>
+      </ol>
+    </nav>
+    
+    <!-- Título del curso -->
+    <h1 class="mb-4">MAT1203 Álgebra Lineal</h1>
+    
+    <!-- Navegación del curso -->
+    <div class="course-nav mb-4">
+      <a href="#">Noticias</a>
+      <a href="#">Información General</a>
+      <a href="#">Material Docente</a>
+      <a href="#">Tareas</a>
+      <a href="#">Ayudantías</a>
+      <a href="#" class="active">Notas</a>
+      <a href="#">Coordinador</a>
+      <a href="#">Académico</a>
+      <a href="#">Ayudante</a>
+    </div>
+    
+    <!-- Contenido del curso - Notas -->
+    <div class="row">
+      <div class="col-md-12">
+        <h4>Notas</h4>
+        <div class="card mt-3">
+          <div class="card-body">
+            <div class="d-flex mb-3">
+              <a href="#" class="me-3 fw-bold">Mis Notas</a>
+              <a href="#" class="me-3">Mis Pruebas</a>
+              <a href="#">Mis justificaciones</a>
+            </div>
+            
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Descripción</th>
+                  <th>Nota</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>I1</td>
+                  <td class="nota-pendiente">4.3</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>I2</td>
+                  <td class="nota-pendiente">5.5</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>T1</td>
+                  <td class="nota-pendiente">6.1</td>
+                  <td></td>
+                <tr>
+                    <td>EX</td>
+                    <td class="nota-pendiente">Pendiente</td>
+                    <td></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="course-footer">
+      LABMAT 2.1 © 2025 / Dirección de Gestión Docente<br>
+      Facultad de Matemáticas, UC
+    </div>
+  </div>
+
+  <script>
+    function showCurso(codigo) {
+      document.getElementById('home').style.display = 'none';
+      document.querySelectorAll('.course-section').forEach(s => s.style.display = 'none');
+      document.getElementById(codigo).style.display = 'block';
+      window.scrollTo(0, 0);
+    }
+    function showHome() {
+      document.querySelectorAll('.course-section').forEach(s => s.style.display = 'none');
+      document.getElementById('home').style.display = 'block';
+      window.scrollTo(0, 0);
+    }
+    
+    // Manejar clic en pestañas de meses
+    document.querySelectorAll('.month-tab').forEach(tab => {
+      tab.addEventListener('click', function() {
+        document.querySelectorAll('.month-tab').forEach(t => t.classList.remove('active'));
+        this.classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>
